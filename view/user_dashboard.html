@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kala Senja Coffee</title>
+    <link rel="stylesheet" href="../css/user_dashboard.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-icon active" data-icon="dashboard"><i class="ph ph-house"></i></div>
+        <div class="sidebar-icon" data-icon="stats"><i class="ph ph-chart-bar"></i></div>
+        <div class="sidebar-icon" data-icon="orders"><i class="ph ph-note"></i></div>
+        <div class="sidebar-icon" data-icon="payments"><i class="ph ph-credit-card"></i></div>
+        <div class="sidebar-icon" data-icon="settings"><i class="ph ph-gear"></i></div>
+    </aside>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Dashboard Section -->
+        <main id="dashboard" class="content-section active">
+            <header>
+                <div class="top-bar">
+                    <h1>Kala Senja Coffee</h1>
+                    <img src="images/logo.jpg" alt="Profile" class="profile-img">
+                </div>
+                <input type="search" placeholder="Search..." class="search-bar" id="search-input">
+                <nav>
+                    <a href="#" class="nav-item active" data-category="All">All</a>
+                    <a href="#" class="nav-item" data-category="Food">Food</a>
+                    <a href="#" class="nav-item" data-category="Beverage">Beverage</a>
+                </nav>
+                <h2>Choose Dishes</h2>
+            </header>
+
+            <div class="dishes-grid" id="dishes-container">
+                <!-- Dish Cards will go here -->
+                <div class="dish-card" data-category="Food">
+                    <img src="images/fm.png" alt="Dish" class="dish-img">
+                    <h3>Dish Name</h3>
+                    <p class="price">Rp. 50,000</p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                </div>
+                <div class="dish-card" data-category="Beverage">
+                    <img src="images/fm.png" alt="Dish" class="dish-img">
+                    <h3>Beverage Name</h3>
+                    <p class="price">Rp. 30,000</p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                </div>
+                <div class="dish-card" data-category="Food">
+                    <img src="images/fm.png" alt="Dish" class="dish-img">
+                    <h3>Food Name</h3>
+                    <p class="price">Rp. 40,000</p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                </div>
+                <div class="dish-card" data-category="Beverage">
+                    <img src="images/fm.png" alt="Dish" class="dish-img">
+                    <h3>Coffee Name</h3>
+                    <p class="price">Rp. 25,000</p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Cart Panel -->
+        <aside class="cart-panel" id="cart-panel">
+            <div class="cart-header">
+                <h2>Cart</h2>
+                <button class="close-cart-btn" id="close-cart-btn">✖</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will appear here -->
+            </div>
+            <div class="cart-total">
+                <p>Subtotal: <span id="cart-subtotal">Rp. 0</span></p>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </aside>
+
+        <!-- Stats Section -->
+        <main id="stats" class="content-section">
+            <h2>Statistics</h2>
+            <p>Here are some statistics about your business.</p>
+        </main>
+
+        <!-- Orders Section -->
+        <main id="orders" class="content-section">
+            <h2>Orders</h2>
+            <p>Manage your customer orders here.</p>
+        </main>
+
+        <!-- Payments Section -->
+        <main id="payments" class="content-section">
+            <h2>Payments</h2>
+            <p>Review and process payments here.</p>
+        </main>
+
+        <!-- Settings Section -->
+        <main id="settings" class="content-section">
+            <h2>Settings</h2>
+            <p>Adjust your application settings here.</p>
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script src="../js/user_dashboard.js"></script>
+</body>
+</html>
