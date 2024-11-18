@@ -13,20 +13,39 @@ body {
     display: flex;
 }
 
+/* All rounder */
+.timestamp {
+    text-align: left; /* Posisi di kanan bawah */
+    font-size: 1.2rem; /* Ukuran teks kecil */
+    color: #959595; /* Warna abu-abu */
+    margin-top: 0.5rem; /* Jarak dari divider */
+    font-style: italic; /* Gaya miring untuk estetika */
+}
+
+/* Kontainer Utama */
+.container {
+    display: flex; /* Menggunakan Flexbox */
+    flex-direction: row; /* Elemen diatur secara horizontal */
+    height: 100vh; /* Tinggi penuh layar */
+    width: 100%; /* Lebar penuh layar */
+}
+
 /* Sidebar Styles */
 .sidebar {
-    width: 80px;
+    width: 7rem; /* Sidebar tetap berukuran tetap */
     background-color: #22242f;
-    padding: 1rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    justify-content: center;
+    padding: 1rem 0;
+    gap: 3rem  ;
+    border-radius: 0rem 2rem 2rem 0rem;
 }
 
 .sidebar-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     background-color: #2a2d3a;
     border-radius: 0.5rem;
     display: flex;
@@ -48,21 +67,33 @@ body {
     color: white;
 }
 
-/* Kontainer Utama */
-.container {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+/* Dashboard Section */
+.content-section {
+    flex-grow: 1; /* Mengisi seluruh ruang yang tersisa */
+    background-color: #1a1b23;
+    display: none;
     padding: 1rem;
-    flex-grow: 1;
+    border-radius: 0.5rem;
+    overflow-y: auto; /* Scroll jika konten terlalu banyak */
+}
+
+.content-section.active {
+    display: block; /* Tampilkan hanya halaman yang aktif */
+}
+
+/* Cart Panel */
+.cart-panel {
+    width: 25rem; /* Lebar tetap */
+    background-color: #22242f;
+    height: 100vh; /* Tinggi penuh layar */
+    padding: 1rem;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Tambahkan scroll jika konten terlalu banyak */
 }
 
 /* Bagian Header */
 header {
     padding: 1rem;
-    background-color: #22242f;
     border-radius: 1rem;
     margin-bottom: 2rem;
 }
@@ -81,13 +112,25 @@ header {
     object-fit: cover;
 }
 
+.container-menu-nav {
+    display: flex;
+    flex-direction: column;
+}
+.menu-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .search-bar {
     background-color: #2a2d3a;
     border: none;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     color: white;
-    width: 100%;
+    width: 20rem;
+    margin-bottom: 1rem;
 }
 
 /* Navigasi */
@@ -144,24 +187,6 @@ nav a.active {
     margin-top: 1rem;
 }
 
-/* Panel Keranjang */
-.cart-panel {
-    position: sticky;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100vh;
-    background-color: #22242f;
-    z-index: 1000;
-    padding: 1.5rem;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-}
-
-.cart-panel.hidden {
-    display: none;
-}
-
 .cart-header {
     display: flex;
     justify-content: space-between;
@@ -185,6 +210,47 @@ nav a.active {
     border-radius: 50%;
     object-fit: cover;
 }
+.payment-section {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.payment-section label {
+    font-size: 1rem;
+    color: #fff;
+}
+
+.payment-section input {
+    background-color: #2a2d3a;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+.payment-type {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.payment-type label {
+    font-size: 1rem;
+    color: #fff;
+}
+
+.payment-type select {
+    background-color: #2a2d3a;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
 
 .cart-total {
     margin-top: 2rem;
@@ -208,20 +274,408 @@ nav a.active {
     font-weight: bold;
     margin: 0.5rem 0;
 }
-
-/* Konten Dinamis */
-.content-section {
-    display: none;
-    padding: 1rem;
-    background-color: #22242f;
-    border-radius: 1rem;
-}
-
-.content-section.active {
-    display: block;
-}
-
-h2 {
+/* Tombol Hapus (tongsampah) pada setiap item cart */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #2a2d3a;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+.cart-item .remove-item-btn {
+    background: none;
+    border: none;
     color: #ff6b6b;
+    font-size: 1.5rem;
+    cursor: pointer;
+    top: 0.5rem;
+    right: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.cart-item .remove-item-btn:hover {
+    color: #ff4b4b;
+}
+
+/* Halaman Cart untuk Mobile */
+@media (max-width: 768px) {
+    /* Halaman Cart Mobile */
+    #mobile-cart {
+        display: none; /* Sembunyikan secara default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #22242f;
+        padding: 2rem;
+        overflow-y: auto;
+        z-index: 1001;
+    }
+
+    #mobile-cart.active {
+        display: block; /* Tampilkan saat aktif */
+    }
+
+    /* Tombol Cart Mobile */
+    .mobile-cart-btn {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 1rem;
+        border: none;
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: bold;
+        z-index: 1001;
+    }
+
+    .mobile-cart-btn.hidden {
+        display: none;
+    }
+
+    /* Menyembunyikan cart-panel pada perangkat mobile */
+    .cart-panel {
+        display: none;
+    }
+
+    /* Panel Cart Mobile */
+    .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .close-cart-btn {
+        cursor: pointer;
+        color: #ff6b6b;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+    }
+
+    /* Cart Items di Mobile */
+    .cart-items {
+        margin-bottom: 1.5rem;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: #2a2d3a;
+        border-radius: 0.5rem;
+    }
+
+    .cart-item img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* Subtotal dan Checkout */
+    .cart-total {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #2a2d3a;
+    }
+
+    .checkout-btn {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        margin-top: 1rem;
+        cursor: pointer;
+    }
+
+    .price {
+        color: #ff6b6b;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .cart-panel {
+        display: block; /* Cart panel harus tetap terlihat pada desktop */
+    }
+
+    .mobile-cart-btn {
+        display: none; /* Sembunyikan tombol Cart pada desktop */
+    }
+}
+
+/* History Order */
+.history-order{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.top-bar-order{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0;
+    width: 100%;
+}
+
+.overall-stats {
+    display: flex; /* Flexbox untuk tata letak baris */
+    justify-content: space-between; /* Menyebar kartu secara merata */
+    gap: 1rem; /* Jarak antar kartu */
+    padding: 1rem; /* Padding di sekitar container */
+    flex-wrap: wrap; /* Membuat kartu responsif saat ukuran layar kecil */
+}
+
+.income-card, .order-card, .customer-card {
+    background-color: #22242f; /* Warna latar belakang kartu */
+    border-radius: 8px; /* Sudut melengkung */
+    padding: 1rem; /* Padding di dalam kartu */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    width: 30%; /* Lebar kartu */
+    text-align: center; /* Teks rata tengah */
+    transition: transform 0.3s ease; /* Animasi saat hover */
+    display: flex;
+    flex-direction: column; /* Susun elemen secara vertikal */
+    align-items: center; /* Rata tengah secara horizontal */
+}
+
+.income-card i, .order-card i, .customer-card i {
+    font-size: 3rem; /* Ukuran besar untuk ikon */
+    color: #2196F3; /* Warna ikon biru */
+    margin-bottom: 1rem; /* Jarak antara ikon dan angka */
+}
+
+.income-card h3, .order-card h3, .customer-card h3 {
+    font-size: 1.25rem; /* Ukuran font judul */
+    color: #fff; /* Warna teks */
+    margin-top: 0.5rem; /* Jarak antara angka dan judul */
+}
+
+.income-card p, .order-card p, .customer-card p {
+    font-size: 1.5rem; /* Ukuran font angka */
+    font-weight: bold; /* Tebalkan angka */
+    color: #2196F3; /* Warna biru untuk angka */
+}
+
+/* Tabel History Transaksi */
+.order-report {
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.order-report h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #22242f; /* Garis bawah antar baris */
+}
+
+.transaction-table th {
+    background-color: #22242f; /* Warna header tabel */
+    color: white;
+    font-weight: bold;
+}
+
+.transaction-table td {
+    background-color:#22242f;
+}
+
+/* Styling untuk dropdown status (select) */
+.status-select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Sales Report */
+.stats-header{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.top-bar-stats{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0;
+    width: 100%;
+}
+
+.stats-overview {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background-color: #22242f;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    flex: 1 1 200px; /* Setiap kartu dapat mengembang hingga 200px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+    color: #fff;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.stat-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.sales-report {
+    margin-top: 2rem;
+}
+
+.sales-report h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #22242f;
+}
+
+.transaction-table th {
+    background-color: #22242f;
+    color: white;
+    font-weight: bold;
+}
+
+.transaction-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.transaction-table .completed {
+    color: green;
+}
+
+.transaction-table .pending {
+    color: orange;
+}
+
+#download-pdf-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+#download-pdf-btn:hover {
+    background-color: #ff4b4b;
+}
+/* Income Overview Section */
+.income-overview {
+    display: flex;
+    gap: 2rem;
+    justify-content: center; /* Pusatkan kartu secara horizontal */
+    flex-wrap: wrap; /* Membuat fleksibel untuk layar kecil */
+    margin-bottom: 2rem;
+}
+
+.payment-card {
+    background-color: #22242f;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payment-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.payment-card h3 {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.payment-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4caf50; /* Warna hijau untuk angka pemasukan */
+}
+.payment-header{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.top-bar-payment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0;
+    width: 100%;
 }
