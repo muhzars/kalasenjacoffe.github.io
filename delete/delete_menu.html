@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konfirmasi Hapus Menu</title>
+
+  <!-- Bootstrap -->
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/simplex/bootstrap.min.css"
+    integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    .swal-style {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+
+    .swal-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .swal-icon {
+      font-size: 50px;
+      color: #e74c3c;
+      margin-bottom: 15px;
+    }
+
+    .swal-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .swal-text {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .swal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .btn-cancel {
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+  <?php include '../admin/admin_header.php'; ?>
+
+  <div class="swal-style">
+    <div class="swal-card">
+      <div class="swal-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="swal-title">Konfirmasi Hapus Menu</div>
+      <div class="swal-text">
+        <p><strong>Nama Menu:</strong> <?php echo htmlspecialchars_decode($studio['studio_name']); ?></p>
+        <p><strong>Deskripsi:</strong> <?php echo htmlspecialchars_decode($studio['description']); ?></p>
+      </div>
+      <form method="POST" class="swal-buttons">
+        <button type="submit" class="btn btn-delete">Ya, Hapus</button>
+        <a href="../list/list_studio.php" class="btn btn-cancel">Batal</a>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

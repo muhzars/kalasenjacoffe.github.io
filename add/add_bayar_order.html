@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembayaran Pesanan</title>
+
+  <!-- Bootstrap -->
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/simplex/bootstrap.min.css"
+    integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <?php include '../admin/admin_header.php'; ?>
+  <div class="content">
+    <h2>Detail Pesanan</h2>
+    <hr class="bg-dark">
+    <div class="mb-3">
+      <button onclick="window.history.back();" class="btn btn-info">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="col-12 col-sm-12">
+      <table class="table table-borderless table-striped table-hover table-sm mt-3">
+        <tr>
+          <th class="col-6 col-sm-6">Nama Pelanggan</th>
+          <td class="col-6 col-sm-6"><?php echo htmlspecialchars($order['customer_name']); ?></td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">Nomor Pesanan</th>
+          <td class="col-6 col-sm-6"><?php echo htmlspecialchars($order['order_number']); ?></td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">Daftar Item</th>
+          <td class="col-6 col-sm-6">
+            <?php foreach ($order['items'] as $item): ?>
+              <?php echo htmlspecialchars($item['name']); ?> (x<?php echo $item['quantity']; ?>)<br>
+            <?php endforeach; ?>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">Total Harga</th>
+          <td class="col-6 col-sm-6">Rp <?php echo number_format($order['total_price'], 0, ',', '.'); ?></td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">Status</th>
+          <td class="col-6 col-sm-6"><?php echo htmlspecialchars(ucfirst($order['status'])); ?></td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">Pilih Metode Pembayaran:</th>
+          <td class="col-6 col-sm-6">
+            <!-- Jika status belum dibayar -->
+            <?php if ($order['status'] !== 'paid'): ?>
+              <form id="paymentForm" method="POST" action="process_payment.php">
+                <select name="payment_method" id="payment_method" required>
+                  <option value="credit_card">Kartu Kredit</option>
+                  <option value="cash">Tunai</option>
+                  <option value="bank_transfer">Transfer Bank</option>
+                </select>
+              <?php else: ?>
+                <p>Sudah Dibayar</p>
+              <?php endif; ?>
+          </td>
+        </tr>
+        <tr>
+          <th class="col-6 col-sm-6">
+            <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i></button>
+          </th>
+          <td class="col-6 col-sm-6">
+            <!-- Tombol batal (jika belum dibayar) -->
+            <?php if ($order['status'] !== 'paid'): ?>
+              <form id="cancelForm" method="POST" action="cancel_order.php">
+                <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                <button type="button" class="btn btn-primary" id="cancelButton"><i class="fa fa-times"></i>
+                </button>
+              </form>
+            <?php endif; ?>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Event listener untuk tombol bayar
+    document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
+      event.preventDefault();
+
+      Swal.fire({
+        title: 'Apakah semua data sudah benar?',
+        text: "Pastikan semua informasi pesanan sudah sesuai sebelum melanjutkan pembayaran.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, lanjutkan!',
+        cancelButtonText: 'Tidak, periksa lagi',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('paymentForm').submit();
+        } else {
+          Swal.fire('Dibatalkan', 'Silakan periksa kembali data pesanan Anda.', 'info');
+        }
+      });
+    });
+
+    // Event listener untuk tombol batal
+    document.getElementById('cancelButton').addEventListener('click', function() {
+      Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda akan membatalkan pesanan ini!",
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonText: 'Ya, batalkan!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('cancelForm').submit();
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

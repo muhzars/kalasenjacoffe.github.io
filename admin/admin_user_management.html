@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kala Senja Coffee</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-icon" data-icon="home"><i class="ph ph-house"></i></div>
+        <div class="sidebar-icon" data-icon="report"><i class="ph ph-chart-line-up"></i></div>
+        <div class="sidebar-icon" data-icon="payments"><i class="ph ph-credit-card"></i></div>
+        <div class="sidebar-icon active" data-icon="users"><i class="ph ph-users"></i></div>
+        <div class="sidebar-icon" data-icon="logout"><i class="ph ph-sign-out"></i></div>
+    </aside>
+
+    <!-- Navbar untuk Mobile -->
+    <div class="mobile-navbar">
+        <div class="mobile-icon active" data-icon="home"><i class="ph ph-house"></i></div>
+        <div class="mobile-icon" data-icon="report"><i class="ph ph-chart-line-up"></i></div>
+        <div class="mobile-icon" data-icon="payments"><i class="ph ph-credit-card"></i></div>
+        <div class="mobile-icon active" data-icon="users"><i class="ph ph-users"></i></div>
+        <div class="mobile-icon" data-icon="logout"><i class="ph ph-sign-out"></i></div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="container">
+        <main id="users" class="content-section active">
+            <header>
+                <div class="top-bar-users">
+                    <div class="users-header">
+                        <h1>User Management</h1>
+                    </div>
+                    <img src="../images/logo.jpg" alt="Profile" class="profile-img">
+                </div>
+                <hr class="divider">
+            </header>
+             <!-- Profile Section -->
+             <section class="user-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>john.doe@example.com</td>
+                            <td>Admin</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>jane.smith@example.com</td>
+                            <td>User</td>
+                            <td>
+                                <button class="btn-edit">Edit</button>
+                                <button class="btn-delete">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

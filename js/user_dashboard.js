@@ -17,6 +17,7 @@ class Application {
         this.closeMobileCartBtn = document.getElementById('close-mobile-cart-btn');
         this.mobileCartItemsContainer = document.getElementById('mobile-cart-items');
         this.mobileCartSubtotal = document.getElementById('mobile-cart-subtotal');
+        
 
         // Inisialisasi
         this.init();
@@ -34,6 +35,8 @@ class Application {
         this.updateTimestamp();
         this.loadStatistics();
         this.setupMobileNavbar();
+        this.setupUserProfile();
+
     }
 
     // Sidebar Navigation
@@ -257,12 +260,10 @@ class Application {
             totalEarnings: 5000000,
             weeklySales: 1200000,
             monthlySales: 4500000,
-            profit: 2000000,
             salesReport: [
-                { date: '2024-11-01', sales: 500000, profit: 200000 },
-                { date: '2024-11-02', sales: 450000, profit: 180000 },
-                { date: '2024-11-03', sales: 300000, profit: 100000 },
-                { date: '2024-11-04', sales: 700000, profit: 350000 },
+                { no: 1, name: 'Coffee Latte', qty: 5, total: 200000 },
+                { no: 2, name: 'Cappuccino', qty: 3, total: 150000 },
+                { no: 3, name: 'Espresso', qty: 2, total: 100000 }
             ]
         });
     }
@@ -275,7 +276,6 @@ class Application {
         updateStat('total-earnings', data.totalEarnings);
         updateStat('weekly-sales', data.weeklySales);
         updateStat('monthly-sales', data.monthlySales);
-        updateStat('profit', data.profit);
 
         const reportBody = document.getElementById('sales-report-body');
         reportBody.innerHTML = '';
@@ -283,14 +283,67 @@ class Application {
         data.salesReport.forEach(report => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${report.date}</td>
-                <td>Rp. ${report.sales.toLocaleString('id-ID')}</td>
-                <td>Rp. ${report.profit.toLocaleString('id-ID')}</td>
+                <td>${report.no}</td>
+                <td>${report.name}</td>
+                <td>${report.qty}</td>
+                <td>Rp. ${report.total.toLocaleString('id-ID')}</td>
             `;
             reportBody.appendChild(row);
         });
     }
+        // Menampilkan dan Mengedit Data User
+    setupUserProfile() {
+        const userProfile = {
+            name: "John Doe",
+            email: "john.doe@example.com",
+            phone: "+62 812 3456 7890",
+            password: "********"
+        };
+
+        const userSection = document.getElementById("users");
+        if (!userSection) return;
+
+        // Render data user
+        const userInfoContainer = document.createElement("div");
+        userInfoContainer.classList.add("user-info");
+
+        userInfoContainer.innerHTML = `
+            <p><strong>Nama:</strong> <span id="user-name">${userProfile.name}</span></p>
+            <p><strong>Email:</strong> <span id="user-email">${userProfile.email}</span></p>
+            <p><strong>No. Telepon:</strong> <span id="user-phone">${userProfile.phone}</span></p>
+            <p><strong>Password:</strong> <span id="user-password">${userProfile.password}</span></p>
+            <button id="edit-user-btn">Edit Data</button>
+        `;
+        userSection.appendChild(userInfoContainer);
+
+        // Edit data user
+        document.getElementById("edit-user-btn").addEventListener("click", () => {
+            this.editUserProfile(userProfile);
+        });
+    }
+
+    editUserProfile(userProfile) {
+        const newName = prompt("Masukkan nama baru:", userProfile.name);
+        const newEmail = prompt("Masukkan email baru:", userProfile.email);
+        const newPhone = prompt("Masukkan nomor telepon baru:", userProfile.phone);
+        const newPassword = prompt("Masukkan password baru:", "");
+
+        if (newName) userProfile.name = newName;
+        if (newEmail) userProfile.email = newEmail;
+        if (newPhone) userProfile.phone = newPhone;
+        if (newPassword) userProfile.password = "*".repeat(newPassword.length);
+
+        // Update tampilan
+        document.getElementById("user-name").textContent = userProfile.name;
+        document.getElementById("user-email").textContent = userProfile.email;
+        document.getElementById("user-phone").textContent = userProfile.phone;
+        document.getElementById("user-password").textContent = userProfile.password;
+
+        alert("Data user berhasil diperbarui!");
+    }
+
 }
+
 
 // Inisialisasi
 document.addEventListener('DOMContentLoaded', () => new Application());
