@@ -10,16 +10,16 @@
 <body>
     <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-icon" data-icon="home"><i class="ph ph-house"></i></div>
-        <div class="sidebar-icon active" data-icon="orders"><i class="ph ph-note"></i></div>
+        <div class="sidebar-icon active" data-icon="home"><i class="ph ph-house"></i></div>
+        <div class="sidebar-icon" data-icon="orders"><i class="ph ph-note"></i></div>
         <div class="sidebar-icon" data-icon="users"><i class="ph ph-user"></i></div>
         <div class="sidebar-icon" data-icon="logout"><i class="ph ph-sign-out"></i></div>
     </aside>
 
     <!-- Navbar untuk Mobile -->
     <div class="mobile-navbar">
-        <div class="mobile-icon" data-icon="home"><i class="ph ph-house"></i></div>
-        <div class="mobile-icon active" data-icon="orders"><i class="ph ph-note"></i></div>
+        <div class="mobile-icon active" data-icon="home"><i class="ph ph-house"></i></div>
+        <div class="mobile-icon" data-icon="orders"><i class="ph ph-note"></i></div>
         <div class="mobile-icon" data-icon="users"><i class="ph ph-user"></i></div>
         <div class="mobile-icon" data-icon="logout"><i class="ph ph-sign-out"></i></div>
     </div>
@@ -37,14 +37,13 @@
                 </div>
                 <div>
                     <div class="menu-nav">
-                        <nav class="container-nav-item">
-                            <a href="#" class="nav-item active" data-category="All">All</a>
-                            <a href="#" class="nav-item" data-category="Food">Food</a>
-                            <a href="#" class="nav-item" data-category="Beverage">Beverage</a>
-                        </nav>
+                        <h2>Choose Menu</h2>
+                        <select class="category-select">
+                            <option  class="category-food" value="food">Food</option>
+                            <option class="category-drink" value="drink">Drink</option>
+                        </select>
                         <div style="flex-basis:30rem"></div>
                     </div>
-                    <h2>Choose Dishes</h2>
                 </div>
             </header>
             <div class="dishes-grid" id="dishes-container">

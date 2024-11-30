@@ -1,111 +1,91 @@
+<?php
+include('../php/config.php'); // Koneksi ke database
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $menu = $_POST['menu'];
+    $price = $_POST['price'];
+    $desc = $_POST['desc'];
+    $categoryMenu = $_POST['categoryMenu'];
+
+    // Periksa apakah file foto diupload
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+        // Tentukan direktori untuk menyimpan gambar
+        $upload_dir = "../uploads/"; // Folder untuk menyimpan gambar
+        $file_name = $_FILES['photo']['name'];
+        $file_tmp = $_FILES['photo']['tmp_name'];
+        $file_path = $upload_dir . basename($file_name); // Path lengkap untuk menyimpan file
+
+        // Cek ekstensi file
+        $allowed_extensions = ['jpg', 'jpeg', 'png'];
+        $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (in_array($file_extension, $allowed_extensions)) {
+            // Pindahkan file ke direktori yang ditentukan
+            if (move_uploaded_file($file_tmp, $file_path)) {
+                // Simpan path gambar di database (relative path)
+                $sql = "INSERT INTO tbl_m_menu (menu_tmm, price_tmm, desc_tmm, photo_tmm, categoryMenu_tmm) 
+                        VALUES (?, ?, ?, ?, ?)";
+
+                if ($stmt = $conn->prepare($sql)) {
+                    // Bind parameter
+                    $stmt->bind_param("ssdss", $menu, $price, $desc, $file_path, $categoryMenu);
+
+                    // Eksekusi query
+                    if ($stmt->execute()) {
+                        // Redirect setelah berhasil
+                        header('Location: ../admin/admin_home.php');
+                        exit;
+                    } else {
+                        echo "Error: " . $stmt->error;
+                    }
+                    $stmt->close();
+                } else {
+                    echo "Error: " . $conn->error;
+                }
+            } else {
+                echo "Failed to upload image.";
+            }
+        } else {
+            echo "Only JPG, JPEG, and PNG files are allowed.";
+        }
+    } else {
+        echo "No file uploaded.";
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Studio</title>
-
-  <!-- Bootstrap -->
-  <link rel="icon" type="image/png" href="../img/favicon.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/simplex/bootstrap.min.css"
-    integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <script>
-    // Format angka ke format Rupiah
-    function formatRupiah(value) {
-      return 'Rp ' + value.replace(/[^,\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-
-    // Fungsi untuk memperbarui input harga saat mengetik
-    function updatePriceInput(event) {
-      const input = event.target;
-      const rawValue = input.value.replace(/[^0-9]/g, ''); // Hanya angka
-      input.value = formatRupiah(rawValue);
-    }
-
-    // Fungsi untuk membersihkan format Rupiah sebelum submit
-    function cleanPriceValue() {
-      const input = document.getElementById('price_per_hour');
-      input.value = input.value.replace(/[^0-9]/g, ''); // Simpan hanya angka ke database
-    }
-  </script>
-
-  <script src="../fungsi/ckeditor/ckeditor.js"></script>
-
-  <style>
-    .content {
-      margin-left: 220px;
-      padding: 20px;
-      margin-top: 50px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Menu</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
-  <?php include '../admin/admin_header.php'; ?>
-  <div class="content">
-    <h2>Tambah Menu Baru</h2>
+    <h2>Add New Menu</h2>
+    <form action="add_menu.php" method="POST" enctype="multipart/form-data">
+        <label for="menu">Menu Name:</label>
+        <input type="text" name="menu" id="menu" required><br><br>
 
-    <form action="add_studio.php" method="POST" enctype="multipart/form-data" onsubmit="cleanPriceValue()"
-      class="p-4 border rounded">
-      <div class="form-group">
-        <label for="studio_name">Nama Menu:</label>
-        <input type="text" id="studio_name" name="studio_name" class="form-control" required>
-      </div>
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" required><br><br>
 
-      <div class="form-group">
-        <label for="description">Deskripsi:</label>
-        <textarea id="description" name="description" class="form-control" required></textarea>
-      </div>
+        <label for="desc">Description:</label>
+        <textarea name="desc" id="desc" rows="4" required></textarea><br><br>
 
-      <!-- Tambahkan skrip CKEditor di sini -->
-      <script>
-        CKEDITOR.replace('description');
-        CKEDITOR.replace('facilities');
-      </script>
+        <label for="categoryMenu">Category:</label>
+        <select name="categoryMenu" id="categoryMenu" required>
+            <option value="Food">Food</option>
+            <option value="Beverage">Beverage</option>
+        </select><br><br>
 
-      <div class="form-group">
-        <label for="price_per_hour">Harga:</label>
-        <input type="text" id="price_per_hour" name="price_per_hour" class="form-control"
-          oninput="updatePriceInput(event)" required>
-      </div>
+        <label for="photo">Upload Photo:</label>
+        <input type="file" name="photo" id="photo" accept="image/*"><br><br>
 
-      <div class="form-group">
-        <label for="foto">Foto:</label>
-        <input type="file" id="foto" name="foto" class="form-control-file" accept="image/*">
-      </div>
-      <button type="submit" class="btn btn-primary">Tambah Menu</button>
+        <button type="submit">Add Menu</button>
     </form>
-  </div>
-
-  <script>
-    <?php if (!empty($success)) : ?>
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
-        text: '<?= $success ?>',
-        confirmButtonText: 'OK'
-      }).then(() => {
-        window.location.href = '../list/list_studio.php'; // Redirect setelah klik OK
-      });
-    <?php elseif (!empty($error)) : ?>
-      Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: '<?= $error ?>',
-        confirmButtonText: 'OK'
-      });
-    <?php endif; ?>
-  </script>
 </body>
-
 </html>
