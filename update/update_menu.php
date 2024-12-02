@@ -21,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Update data menu
     $sql = "UPDATE tbl_m_menu SET menu_tmm='$menu_name', price_tmm='$price', desc_tmm='$desc', photo_tmm='$photo' WHERE id_tmm=$id";
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Menu updated successfully'); window.location.href = 'index.php';</script>";
+        // Mengalihkan ke halaman admin_home.php setelah update berhasil
+        echo "<script>alert('Menu updated successfully'); window.location.href = '../admin/admin_home.php';</script>";
     } else {
         echo "Error: " . $conn->error;
     }
@@ -50,3 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 </body>
 </html>
+
+<?php
+$conn->close(); // Tutup koneksi database setelah selesai
+?>

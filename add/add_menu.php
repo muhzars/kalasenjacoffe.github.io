@@ -32,9 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     // Eksekusi query
                     if ($stmt->execute()) {
-                        // Redirect setelah berhasil
-                        header('Location: ../admin/admin_home.php');
-                        exit;
+                        // Ambil ID menu yang baru ditambahkan
+                        $last_id = $conn->insert_id;
+
+                        // Tambahkan stok untuk menu ini ke tabel tbl_t_stock dengan stok awal 0
+                        $sql_stock = "INSERT INTO tbl_t_stock (id_tmm, stock_tts) VALUES (?, 0)"; // Stok awal 0
+                        if ($stmt_stock = $conn->prepare($sql_stock)) {
+                            $stmt_stock->bind_param("i", $last_id);
+                            if ($stmt_stock->execute()) {
+                                // Redirect setelah berhasil
+                                header('Location: ../admin/admin_home.php');
+                                exit;
+                            } else {
+                                echo "Error adding stock: " . $stmt_stock->error;
+                            }
+                            $stmt_stock->close();
+                        } else {
+                            echo "Error preparing stock query: " . $conn->error;
+                        }
                     } else {
                         echo "Error: " . $stmt->error;
                     }
