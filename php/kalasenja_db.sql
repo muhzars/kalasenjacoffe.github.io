@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2024 at 09:23 AM
+-- Generation Time: Dec 02, 2024 at 06:03 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 8.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,17 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_m_category`
---
-
-CREATE TABLE `tbl_m_category` (
-  `id_tmc` int NOT NULL,
-  `categoryName` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_m_menu`
 --
 
@@ -43,9 +32,17 @@ CREATE TABLE `tbl_m_menu` (
   `menu_tmm` varchar(50) NOT NULL,
   `price_tmm` decimal(10,2) NOT NULL,
   `desc_tmm` text,
-  `photo_tmm` blob,
-  `id_tmc` int NOT NULL
+  `photo_tmm` varchar(255) NOT NULL,
+  `categoryMenu_tmm` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_m_menu`
+--
+
+INSERT INTO `tbl_m_menu` (`id_tmm`, `menu_tmm`, `price_tmm`, `desc_tmm`, `photo_tmm`, `categoryMenu_tmm`) VALUES
+(9, 'cuydrink', '100000.00', '0', '../uploads/1698721040883.png', 'Food'),
+(11, 'cuyminum', '25000.00', '0', '../uploads/images.png', 'Beverage');
 
 -- --------------------------------------------------------
 
@@ -71,6 +68,13 @@ CREATE TABLE `tbl_m_user` (
   `password_tmu` varchar(50) NOT NULL,
   `role_tmu` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_m_user`
+--
+
+INSERT INTO `tbl_m_user` (`id_tmu`, `email_tmu`, `name_tmu`, `password_tmu`, `role_tmu`) VALUES
+(2, 'admin@example.com', 'admin', 'admin', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -116,22 +120,22 @@ CREATE TABLE `tbl_t_stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `tbl_t_stock`
 --
 
+INSERT INTO `tbl_t_stock` (`id_tts`, `id_tmm`, `stock_tts`) VALUES
+(1, 9, 1),
+(3, 11, 3);
+
 --
--- Indexes for table `tbl_m_category`
+-- Indexes for dumped tables
 --
-ALTER TABLE `tbl_m_category`
-  ADD PRIMARY KEY (`id_tmc`),
-  ADD UNIQUE KEY `categoryName` (`categoryName`);
 
 --
 -- Indexes for table `tbl_m_menu`
 --
 ALTER TABLE `tbl_m_menu`
-  ADD PRIMARY KEY (`id_tmm`),
-  ADD KEY `id_tmc` (`id_tmc`);
+  ADD PRIMARY KEY (`id_tmm`);
 
 --
 -- Indexes for table `tbl_m_paymentmethod`
@@ -175,16 +179,10 @@ ALTER TABLE `tbl_t_stock`
 --
 
 --
--- AUTO_INCREMENT for table `tbl_m_category`
---
-ALTER TABLE `tbl_m_category`
-  MODIFY `id_tmc` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbl_m_menu`
 --
 ALTER TABLE `tbl_m_menu`
-  MODIFY `id_tmm` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tmm` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_m_paymentmethod`
@@ -196,7 +194,7 @@ ALTER TABLE `tbl_m_paymentmethod`
 -- AUTO_INCREMENT for table `tbl_m_user`
 --
 ALTER TABLE `tbl_m_user`
-  MODIFY `id_tmu` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tmu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_t_order`
@@ -214,17 +212,11 @@ ALTER TABLE `tbl_t_payment`
 -- AUTO_INCREMENT for table `tbl_t_stock`
 --
 ALTER TABLE `tbl_t_stock`
-  MODIFY `id_tts` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tts` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `tbl_m_menu`
---
-ALTER TABLE `tbl_m_menu`
-  ADD CONSTRAINT `tbl_m_menu_ibfk_1` FOREIGN KEY (`id_tmc`) REFERENCES `tbl_m_category` (`id_tmc`);
 
 --
 -- Constraints for table `tbl_t_order`
@@ -244,7 +236,7 @@ ALTER TABLE `tbl_t_payment`
 -- Constraints for table `tbl_t_stock`
 --
 ALTER TABLE `tbl_t_stock`
-  ADD CONSTRAINT `tbl_t_stock_ibfk_1` FOREIGN KEY (`id_tmm`) REFERENCES `tbl_m_menu` (`id_tmm`);
+  ADD CONSTRAINT `tbl_t_stock_ibfk_1` FOREIGN KEY (`id_tmm`) REFERENCES `tbl_m_menu` (`id_tmm`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
